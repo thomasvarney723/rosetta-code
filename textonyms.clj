@@ -4,7 +4,7 @@
 ;; particular combination of digits corresponds to more than one word. 
 ;; Such are called textonyms.
 
-(def table
+(def char->digit
   {\a 2 \b 2 \c 2       \A 2 \B 2 \C 2
    \d 3 \e 3 \f 3       \D 3 \E 3 \F 3
    \g 4 \h 4 \i 4       \G 4 \H 4 \I 4
@@ -18,11 +18,11 @@
 
 (def words (-> words-url slurp clojure.string/split-lines))
 
-(def digits (partial map table))
+(def digits (partial map char->digit))
 
-(let [textable  (filter #(every? table %) words) ;; words with letters only
-      mapping   (group-by digits textable)       ;; map of digits to words
-      textonyms (->> mapping                     ;; textonyms only
+(let [textable  (filter #(every? char->digit %) words) ;; words with letters only
+      mapping   (group-by digits textable)             ;; map of digits to words
+      textonyms (->> mapping                           ;; textonyms only
                      vals        
                      (filter #(< 1 (count %))))]
   (print 
@@ -33,4 +33,4 @@
 
 ;; There are 24978 words in 'http://www.puzzlers.org/pub/wordlists/unixdict.txt'
 ;; which can be represented by the digit key mapping. They require 22903 digit
-;; combinations to represent them. 3548 digit combinations represent Textonyms.
+;; combinations to represent them. 1473 digit combinations represent Textonyms.
