@@ -22,9 +22,7 @@
 
 (let [textable  (filter #(every? char->digit %) words) ;; words with letters only
       mapping   (group-by digits textable)             ;; map of digits to words
-      textonyms (->> mapping                           ;; textonyms only
-                     vals        
-                     (filter #(< 1 (count %))))]
+      textonyms (filter #(< 1 (count (val %))) mapping)] ;; textonyms only
   (print 
    (str "There are " (count textable) " words in " \' words-url \'
         " which can be represented by the digit key mapping. They require "
